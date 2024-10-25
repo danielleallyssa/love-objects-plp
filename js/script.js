@@ -1,7 +1,16 @@
 const productItems = document.querySelectorAll(".product-tile__item");
+const gridVLines = document.querySelectorAll(".product-tile__item .line.vert");
+
+// const start = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+start.add([
+  gsap.to(gridVLines, {
+    height: "100%",
+  }),
+]);
 
 productItems.forEach((item) => {
-  const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+  // const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
   const title = item.querySelector(".product-tile__title");
   const button = item.querySelector("a.btn");
