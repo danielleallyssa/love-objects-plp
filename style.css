@@ -123,6 +123,11 @@ span {
   position: relative;
 }
 
+.product-tile__content-wrapper,
+.product-tile__image-wrapper {
+  visibility: hidden;
+}
+
 .line {
   position: absolute;
   background: var(--color-main);
@@ -145,7 +150,7 @@ span {
 }
 
 .product-tile__image-wrapper {
-  width: min(200px, 100%);
+  width: min(175px, 100%);
   aspect-ratio: 1;
   margin-inline: auto;
   padding: 2em 0;
@@ -156,11 +161,11 @@ span {
 }
 
 .product-tile__item:nth-child(3n + 2) .product-tile__image-wrapper {
-  animation-delay: 1s;
+  animation-delay: 1.5s;
 }
 
 .product-tile__item:nth-child(3n + 3) .product-tile__image-wrapper {
-  animation-delay: 2s;
+  animation-delay: 2.5s;
 }
 
 .product-tile__content-wrapper {

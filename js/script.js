@@ -1,74 +1,109 @@
 const productItems = document.querySelectorAll(".product-tile__item");
-const gridHLines = document.querySelectorAll("section > .line.hor");
-const gridVLines = document.querySelectorAll(".product-tile__item .line.vert");
 
-const start = gsap.timeline({
-  defaults: { ease: "power4.out", duration: 0.75 },
-});
+const lines = {
+  h: document.querySelectorAll("section > .line.hor"),
+  v: document.querySelectorAll(".product-tile__item .line.vert"),
+};
 
-start
-  .to(gridHLines, {
+const start = gsap
+  .timeline({
+    defaults: { ease: "power4.out", duration: 0.75 },
+  })
+  .to(lines.h, {
     width: "100%",
   })
-  .to(gridVLines, {
+  .to(lines.v, {
     height: "100%",
   })
-  .from(
-    "header",
-    {
-      y: "-100%",
-    },
-    "<.125"
-  )
   .from(
     "h2",
     {
       opacity: 0,
+      x: -20,
     },
-    "<"
-  );
+    "<.5"
+  )
+  .call(initItem, null, "-=.75");
 
-productItems.forEach((item) => {
-  const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+function initItem() {
+  productItems.forEach((item) => {
+    const itemEl = {
+      contentWrap: item.querySelector(".product-tile__content-wrapper"),
+      imageWrap: item.querySelector(".product-tile__image-wrapper"),
+      title: item.querySelector(".product-tile__title"),
+      link: item.querySelector("a.btn"),
+      reveal: item.querySelectorAll(".reveal"),
+      revealText: item.querySelectorAll(".reveal span"),
+      img: document.querySelectorAll("img"),
+    };
 
-  const title = item.querySelector(".product-tile__title");
-  const button = item.querySelector("a.btn");
-  const revealBox = item.querySelectorAll(".reveal");
-  const revealText = item.querySelectorAll(".reveal span");
-  const img = document.querySelectorAll("img");
-
-  tl.from(title, {
-    opacity: 0,
-    yPercent: 100,
-    duration: 1,
-  })
-    .from(revealBox, {
-      xPercent: -100,
-      stagger: 0.1,
-    })
-    .from(revealText, {
-      yPercent: 100,
-      stagger: 0.1,
-    })
-    .fromTo(
-      img,
-      {
-        autoAlpha: 0,
-        scale: 0.95,
-      },
-      {
+    const tl = gsap
+      .timeline({
+        defaults: { ease: "power4.out" },
+        paused: true,
+      })
+      .to(itemEl.contentWrap, {
         autoAlpha: 1,
-        scale: 1,
-        duration: 1,
-      },
-      "<.25"
-    );
+        duration: 0.25,
+      })
+      .to(
+        itemEl.imageWrap,
+        {
+          autoAlpha: 1,
+        },
+        "<"
+      )
+      .fromTo(
+        itemEl.img,
+        {
+          autoAlpha: 0,
+          y: 50,
+        },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 1,
+        },
+        "<.25"
+      )
+      .fromTo(
+        itemEl.title,
+        {
+          autoAlpha: 0,
+          y: 20,
+        },
+        {
+          autoAlpha: 1,
+          y: 0,
+        },
+        "<.33"
+      )
+      .from(
+        itemEl.reveal,
+        {
+          xPercent: -100,
+          stagger: 0.1,
+        },
+        "<"
+      )
+      .from(itemEl.revealText, {
+        yPercent: 100,
+        stagger: 0.1,
+      })
+      .fromTo(
+        itemEl.link,
+        {
+          autoAlpha: 0,
+          y: 50,
+        },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 1,
+        },
+        "-=.25"
+      );
 
-  // img.onload = () => {
-
-  // };
-
-  tl.play();
-
-  console.log(button);
-});
+    tl.play();
+  });
+}
