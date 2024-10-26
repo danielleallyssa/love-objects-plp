@@ -215,4 +215,12 @@ span {
   .product-tile__item:nth-child(odd) .line.vert {
     display: none;
   }
+
+  .product-tile__item:nth-last-child(n + 2) .line.hor {
+    left: 0;
+    bottom: 0;
+
+    height: var(--line);
+    width: 100%;
+  }
 }
