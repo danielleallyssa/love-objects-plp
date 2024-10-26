@@ -209,7 +209,9 @@ span {
   .product-tiles__container {
     grid-template-columns: repeat(2, 1fr);
   }
+}
 
+@media screen and (max-width: 749px) {
   .product-tile__item:nth-child(odd) .line.vert {
     display: none;
   }
