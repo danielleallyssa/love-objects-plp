@@ -1,5 +1,5 @@
 :root {
-  --line: 0.125px;
+  --line: 1px;
   --color-main: #fff;
   --border: var(--line) solid var(--color-main);
   --ease-quart: cubic-bezier(0.25, 1, 0.5, 1);

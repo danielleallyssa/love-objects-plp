@@ -86,10 +86,14 @@ function initItem() {
         },
         "<"
       )
-      .from(itemEl.revealText, {
-        yPercent: 100,
-        stagger: 0.1,
-      })
+      .from(
+        itemEl.revealText,
+        {
+          yPercent: 100,
+          stagger: 0.1,
+        },
+        "<.5"
+      )
       .fromTo(
         itemEl.link,
         {
