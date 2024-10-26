@@ -209,11 +209,8 @@ span {
   .product-tiles__container {
     grid-template-columns: repeat(2, 1fr);
   }
-  .product-tile__item:nth-child(odd) {
-    /* border-right: var(--border); */
-  }
 
-  .product-tile__item:nth-last-child(n + 3) {
-    /* border-bottom: var(--border); */
+  .product-tile__item:nth-child(odd) .line.vert {
+    display: none;
   }
 }
