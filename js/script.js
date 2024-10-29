@@ -1,18 +1,26 @@
-const productItems = document.querySelectorAll(".product-tile__item");
-
+gsap.registerPlugin(GSDevTools);
 let main = gsap.timeline();
 
 class App {
   constructor() {
-    this.h_Line = document.querySelector("section > .line.hor");
-    this.v_Lines = [
-      ...document.querySelectorAll(".product-tile__item .line.vert"),
-    ];
-    this.revealConts = [
-      ...document.querySelectorAll(".product-tile__item .reveal"),
-    ];
-    this.collTitle = document.querySelector("h2");
+    this.elements = this._getElements();
     this._init();
+  }
+
+  _getElements() {
+    return {
+      h_Line: document.querySelector("section > .line.hor"),
+      v_Lines: [...document.querySelectorAll(".product-tile__item .line.vert")],
+      revealConts: [
+        ...document.querySelectorAll(".product-tile__item .reveal"),
+      ],
+      collTitle: document.querySelector("h2"),
+      prodTitle: [...document.querySelectorAll("h3.product-tile__title")],
+      prodDetails: [
+        ...document.querySelectorAll(".product-tile__item .reveal span"),
+      ],
+      prodLinks: [...document.querySelectorAll("a.btn")],
+    };
   }
 
   _init() {
@@ -20,19 +28,30 @@ class App {
 
     let main = gsap.timeline();
     main.add(this._animateLines()).add(this._revealUI(), "<1");
+    GSDevTools.create({ animation: main });
   }
 
   _setInitialStates() {
-    gsap.set(this.h_Line, {
+    gsap.set(this.elements.h_Line, {
       clipPath: "polygon(50% 0%, 50% 0%, 50% 100%, 50% 100%)",
     });
-    gsap.set(this.v_Lines, { height: 0 });
-    gsap.set(this.revealConts, {
+    gsap.set(this.elements.v_Lines, { height: 0 });
+    gsap.set(this.elements.revealConts, {
       clipPath: "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)",
     });
-    gsap.set(this.collTitle, {
-      autoAlpha: 0,
-      y: -10,
+    gsap.set(
+      [
+        this.elements.collTitle,
+        this.elements.prodTitle,
+        this.elements.prodLinks,
+      ],
+      {
+        autoAlpha: 0,
+        y: -10,
+      }
+    );
+    gsap.set(this.elements.prodDetails, {
+      y: "105%",
     });
   }
 
@@ -42,28 +61,42 @@ class App {
       defaults: { ease: "power4.inOut", duration: 1 },
     });
 
-    tl.to(this.h_Line, {
+    tl.to(this.elements.h_Line, {
       clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
     })
-      .to(this.v_Lines, { height: "100%" }, "<")
+      .to(this.elements.v_Lines, { height: "100%" }, "<")
       .to(
-        this.revealConts,
+        this.elements.revealConts,
         {
           clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+          stagger: 0.025,
         },
-        "-=.75"
+        "-=.9"
       );
 
     return tl;
   }
 
   _revealUI() {
-    const tl = gsap.timeline();
-
-    tl.to(this.collTitle, {
-      autoAlpha: 1,
-      y: 0,
-    });
+    const tl = gsap.timeline({ defaults: { ease: "power2.inOut" } });
+    tl.to(
+      [
+        this.elements.collTitle,
+        this.elements.prodTitle,
+        this.elements.prodLinks,
+      ],
+      {
+        autoAlpha: 1,
+        y: 0,
+      }
+    ).to(
+      this.elements.prodDetails,
+      {
+        y: 0,
+        stagger: 0.025,
+      },
+      "<.5"
+    );
 
     return tl;
   }
@@ -112,40 +145,6 @@ new App();
 //         },
 //         "<.25"
 //       )
-//       .fromTo(
-//         itemEl.title,
-//         {
-//           autoAlpha: 0,
-//           y: 20,
-//         },
-//         {
-//           autoAlpha: 1,
-//           y: 0,
-//         },
-//         "<.33"
-//       )
-//       .from(
-//         itemEl.reveal,
-//         {
-//           xPercent: -100,
-//           stagger: 0.1,
-//         },
-//         "<"
-//       )
-//       .from(
-//         itemEl.revealText,
-//         {
-//           yPercent: 100,
-//           stagger: 0.1,
-//         },
-//         "<.5"
-//       )
-//       .fromTo(
-//         itemEl.link,
-//         {
-//           autoAlpha: 0,
-//           y: 50,
-//         },
 //         {
 //           autoAlpha: 1,
 //           y: 0,
@@ -153,7 +152,3 @@ new App();
 //         },
 //         "-=.25"
 //       );
-
-//     tl.play();
-//   });
-// }
