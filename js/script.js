@@ -62,7 +62,7 @@ class App {
     });
     gsap.set([prodTitles, prodLinks], {
       autoAlpha: 0,
-      y: "50%",
+      y: "100%",
     });
     gsap.set([prodImages], {
       autoAlpha: 0,
