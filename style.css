@@ -170,8 +170,6 @@ canvas {
   font-variation-settings: "wght" 200;
   letter-spacing: 1px;
   font-size: 1.5rem;
-  transition: all 0.5s var(--ease-quart);
-  will-change: transform;
 }
 
 .product-tile__title:hover {
