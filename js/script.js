@@ -1,29 +1,75 @@
 const productItems = document.querySelectorAll(".product-tile__item");
 
-const lines = {
-  h: document.querySelectorAll("section > .line.hor"),
-  v: document.querySelectorAll(".product-tile__item .line.vert"),
-};
+let main = gsap.timeline();
 
-// const start = gsap
-//   .timeline({
-//     defaults: { ease: "power4.out", duration: 0.75 },
-//   })
-//   .to(lines.h, {
-//     width: "100%",
-//   })
-//   .to(lines.v, {
-//     height: "100%",
-//   })
-//   .from(
-//     "h2",
-//     {
-//       opacity: 0,
-//       x: -20,
-//     },
-//     "<.5"
-//   )
-//   .call(initItem, null, "-=.75");
+class App {
+  constructor() {
+    this.h_Line = document.querySelector("section > .line.hor");
+    this.v_Lines = [
+      ...document.querySelectorAll(".product-tile__item .line.vert"),
+    ];
+    this.revealConts = [
+      ...document.querySelectorAll(".product-tile__item .reveal"),
+    ];
+    this.collTitle = document.querySelector("h2");
+    this._init();
+  }
+
+  _init() {
+    this._setInitialStates();
+
+    let main = gsap.timeline();
+    main.add(this._animateLines()).add(this._revealUI(), "<1");
+  }
+
+  _setInitialStates() {
+    gsap.set(this.h_Line, {
+      clipPath: "polygon(50% 0%, 50% 0%, 50% 100%, 50% 100%)",
+    });
+    gsap.set(this.v_Lines, { height: 0 });
+    gsap.set(this.revealConts, {
+      clipPath: "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)",
+    });
+    gsap.set(this.collTitle, {
+      autoAlpha: 0,
+      y: -10,
+    });
+  }
+
+  _animateLines() {
+    let tl = gsap.timeline({
+      delay: 0.25,
+      defaults: { ease: "power4.inOut", duration: 1 },
+    });
+
+    tl.to(this.h_Line, {
+      clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+    })
+      .to(this.v_Lines, { height: "100%" }, "<")
+      .to(
+        this.revealConts,
+        {
+          clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+        },
+        "-=.75"
+      );
+
+    return tl;
+  }
+
+  _revealUI() {
+    const tl = gsap.timeline();
+
+    tl.to(this.collTitle, {
+      autoAlpha: 1,
+      y: 0,
+    });
+
+    return tl;
+  }
+}
+
+new App();
 
 // function initItem() {
 //   productItems.forEach((item) => {
