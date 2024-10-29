@@ -61,11 +61,11 @@ class App {
       y: -10,
     });
     gsap.set([prodTitles, prodLinks], {
-      autoAlpha: 0,
+      opacity: 0,
       y: "100%",
     });
     gsap.set([prodImages], {
-      autoAlpha: 0,
+      opacity: 0,
       y: "10%",
     });
     gsap.set(prodDetails, {
@@ -108,7 +108,7 @@ class App {
       defaults: { ease: "power4.out", duration: 0.75 },
     });
     tl.to([prodTitles, prodLinks, prodImages], {
-      autoAlpha: 1,
+      opacity: 1,
       y: 0,
     })
       .to(
